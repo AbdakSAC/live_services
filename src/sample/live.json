@@ -1,0 +1,62 @@
+[
+  {
+    "header": {
+      "percent": "0.79%",
+      "percent_color": "rgb(141, 205, 65)",
+      "sportName": "Basketball",
+      "period": "[with OT]",
+      "middle_value": null,
+      "time": "12 sec"
+    },
+    "sections": [
+      {
+        "book_name": "Mozzartbet",
+        "score": "59:36 (17:11, 30:17, 12:8)",
+        "event_name": "Cb Malaga - Strasbourg",
+        "league_name": "International. Champions League",
+        "market": "TO(88.5) for Team1",
+        "arrowClass": "icomoon-arrow-up",
+        "odds": "2.20"
+      },
+      {
+        "book_name": "Retabet",
+        "score": "",
+        "event_name": "Unicaja Malaga - Strasbourg",
+        "league_name": "Europe. FIBA Champions League",
+        "market": "TU(88.5) for Team1",
+        "arrowClass": "icomoon-arrow-up",
+        "odds": "1.86"
+      }
+    ]
+  },
+  {
+    "header": {
+      "percent": "0.00%",
+      "percent_color": "rgb(141, 205, 65)",
+      "sportName": "Tennis",
+      "period": null,
+      "middle_value": null,
+      "time": "12 sec"
+    },
+    "sections": [
+      {
+        "book_name": "Mozzartbet",
+        "score": "1:1 (7:6, 3:6, 0:0) 0:0",
+        "event_name": "Sekulic, Philip - Comesana, Francisco",
+        "league_name": "Challenger. CHL Santa Cruz",
+        "market": "TO(17.5) for Team2",
+        "arrowClass": "icomoon-arrow-down",
+        "odds": "1.25"
+      },
+      {
+        "book_name": "Bet365",
+        "score": "1:1 (7:6, 3:6, 0:0) 0:15",
+        "event_name": "Sekulic, Philip - Comesana, Francisco",
+        "league_name": "Challenger Santa Cruz",
+        "market": "TU(17.5) for Team2",
+        "arrowClass": "icomoon-arrow-up",
+        "odds": "5.00"
+      }
+    ]
+  }
+]

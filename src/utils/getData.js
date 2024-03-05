@@ -1,5 +1,6 @@
 export const getDataForScrap = async (page)=>{
   let datos = await page.evaluate(() => {
+
     const arbsListElement = document.querySelector("ul.arbs-list");
 
     if (!arbsListElement) {
@@ -17,6 +18,7 @@ export const getDataForScrap = async (page)=>{
         const percent = headerElement
           .querySelector(".percent")
           .innerText.trim();
+        const middle_value = headerElement.querySelector(".middle-value > span")
         const percent_color = getComputedStyle(headerElement.querySelector(".percent")).backgroundColor
         const sportName = headerElement
           .querySelector(".sport-name")
@@ -86,6 +88,7 @@ export const getDataForScrap = async (page)=>{
             percent_color,
             sportName,
             period: period_game ? period_game.innerText.trim() : null,
+            middle_value : middle_value ? middle_value.innerText.trim() : null,
             time,
           },
           sections,

@@ -9,6 +9,7 @@ const __dirname = path.dirname(__filename);
 const direction = path.join(__dirname, "..", "sample", "live.json"); // Ruta de salida
 
 export const startLive = async (openBrowser) => {
+
   const browser = await openBrowser;
   const page = await browser.newPage();
   await page.goto("https://www.betburger.com/users/sign_in", {
@@ -33,12 +34,14 @@ export const startLive = async (openBrowser) => {
     { timeout: 0 }
   );
 
+  // setInterval(async ()=>{
+  //   await page.reload();
+  // }, 20000)
+
   // Obtener datos
   setInterval(async () => {
     let collection_live = await getDataForScrap(page);
 
     await fs.writeFile(direction, JSON.stringify(collection_live, null, 2));
-
-    //console.log(JSON.stringify(collection_live, null, 2));
-  }, 5000);
+  }, 1500);
 };
