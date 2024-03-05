@@ -1,5 +1,12 @@
+import fs from "fs/promises";
+import { fileURLToPath } from "url";
+import path from "path";
 import { credentials } from "../configurations/credentials.js";
 import { getDataForScrap } from "../utils/getData.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const direction = path.join(__dirname, "..", "sample", "live.json"); // Ruta de salida
 
 export const startLive = async (openBrowser) => {
   const browser = await openBrowser;
@@ -27,7 +34,11 @@ export const startLive = async (openBrowser) => {
   );
 
   // Obtener datos
-  let collection = await getDataForScrap(page)
+  setInterval(async () => {
+    let collection_live = await getDataForScrap(page);
 
-  console.log(JSON.stringify(collection, null, 2));
+    await fs.writeFile(direction, JSON.stringify(collection_live, null, 2));
+
+    //console.log(JSON.stringify(collection_live, null, 2));
+  }, 5000);
 };

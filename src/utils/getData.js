@@ -17,6 +17,7 @@ export const getDataForScrap = async (page)=>{
         const percent = headerElement
           .querySelector(".percent")
           .innerText.trim();
+        const percent_color = getComputedStyle(headerElement.querySelector(".percent")).backgroundColor
         const sportName = headerElement
           .querySelector(".sport-name")
           .innerText.trim();
@@ -82,6 +83,7 @@ export const getDataForScrap = async (page)=>{
         data.push({
           header: {
             percent,
+            percent_color,
             sportName,
             period: period_game ? period_game.innerText.trim() : null,
             time,
