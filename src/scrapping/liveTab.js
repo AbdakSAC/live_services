@@ -39,9 +39,9 @@ export const startLive = async (openBrowser) => {
 
     arbsListElement.querySelectorAll("li").forEach((arbItem) => {
       const headerElement = arbItem.querySelector(".header");
-      const wrapperElement = arbItem.querySelector(".bet-wrapper");
+      const wrapperElements = arbItem.querySelectorAll(".bet-wrapper");
 
-      if (headerElement && wrapperElement) {
+      if (headerElement && wrapperElements.length > 0) {
         const percent = headerElement
           .querySelector(".percent")
           .innerText.trim();
@@ -52,40 +52,61 @@ export const startLive = async (openBrowser) => {
           .querySelector(".updated-at")
           .innerText.trim();
 
-        const book_name = wrapperElement
-          .querySelector(".bookmaker-name > span.text-ellipsis")
-          .innerText.trim();
-        const score = wrapperElement
-          .querySelector(".bookmaker-name > .current-score")
-          .innerText.trim();
+        const sections = [];
 
-        const event_name = wrapperElement
-          .querySelector(".event-name > .name a")
-          .innerText.trim();
+        wrapperElements.forEach((wrapperElement, index) => {
+          const book_name = wrapperElement
+            .querySelector(".bookmaker-name > span.text-ellipsis")
+            .innerText.trim();
+          const score = wrapperElement
+            .querySelector(".bookmaker-name > .current-score")
+            .innerText.trim();
 
-        const league_name = wrapperElement
-          .querySelector(".event-name > .league")
-          .innerText.trim();
+          const event_name = wrapperElement
+            .querySelector(".event-name > .name a")
+            .innerText.trim();
 
-        const market = wrapperElement
-          .querySelector(".market > span > span")
-          .innerText.trim();
+          const league_name = wrapperElement
+            .querySelector(".event-name > .league")
+            .innerText.trim();
 
-        const odds = wrapperElement
-          .querySelector("span.coefficient")
-          .innerText.trim();
+          const market = wrapperElement
+            .querySelector(".market > span > span")
+            .innerText.trim();
 
-        // Puedes agregar más propiedades según tus necesidades
-        data.push({
-          firts_column: { percent, sportName, time },
-          second_column: {
+          const odds = wrapperElement
+            .querySelector("span.coefficient")
+            .innerText.trim();
+
+          const arrowUpElement = wrapperElement.querySelector(
+            ".odds-info .icomoon-arrow-up"
+          );
+          const arrowDownElement = wrapperElement.querySelector(
+            ".odds-info .icomoon-arrow-down"
+          );
+
+          // Obtener el nombre de la clase
+          const arrowClass = arrowUpElement
+            ? "icomoon-arrow-up"
+            : arrowDownElement
+            ? "icomoon-arrow-down"
+            : null;
+
+          sections.push({
             book_name,
             score,
             event_name,
             league_name,
             market,
+            arrowClass,
             odds,
-          },
+          });
+        });
+
+        // Puedes agregar más propiedades según tus necesidades
+        data.push({
+          header: { percent, sportName, time },
+          sections,
         });
       }
     });
@@ -93,5 +114,5 @@ export const startLive = async (openBrowser) => {
     return data;
   });
 
-  console.log(datos);
+  console.log(JSON.stringify(datos, null, 2));
 };
