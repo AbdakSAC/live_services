@@ -43,5 +43,5 @@ export const startLive = async (openBrowser) => {
     let collection_live = await getDataForScrap(page);
 
     await fs.writeFile(direction, JSON.stringify(collection_live, null, 2));
-  }, 1500);
+  }, 3000);
 };

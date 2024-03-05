@@ -1,6 +1,5 @@
-export const getDataForScrap = async (page)=>{
+export const getDataForScrap = async (page) => {
   let datos = await page.evaluate(() => {
-
     const arbsListElement = document.querySelector("ul.arbs-list");
 
     if (!arbsListElement) {
@@ -18,8 +17,12 @@ export const getDataForScrap = async (page)=>{
         const percent = headerElement
           .querySelector(".percent")
           .innerText.trim();
-        const middle_value = headerElement.querySelector(".middle-value > span")
-        const percent_color = getComputedStyle(headerElement.querySelector(".percent")).backgroundColor
+        const middle_value = headerElement.querySelector(
+          ".middle-value > span"
+        );
+        const percent_color = getComputedStyle(
+          headerElement.querySelector(".percent")
+        ).backgroundColor;
         const sportName = headerElement
           .querySelector(".sport-name")
           .innerText.trim();
@@ -34,10 +37,10 @@ export const getDataForScrap = async (page)=>{
 
         wrapperElements.forEach((wrapperElement, index) => {
           const book_name = wrapperElement
-            .querySelector(".bookmaker-name > span.text-ellipsis")
+            .querySelector(".bookmaker-name > a.text-ellipsis")
             .innerText.trim();
           const score = wrapperElement
-            .querySelector(".bookmaker-name > .current-score")
+            .querySelector(".bookmaker-name > span.current-score")
             .innerText.trim();
 
           const event_name = wrapperElement
@@ -49,11 +52,11 @@ export const getDataForScrap = async (page)=>{
             .innerText.trim();
 
           const market = wrapperElement
-            .querySelector(".market > span > span")
+            .querySelector(".market > a > span")
             .innerText.trim();
 
           const odds = wrapperElement
-            .querySelector("span.coefficient")
+            .querySelector("a.coefficient-link")
             .innerText.trim();
 
           const arrowUpElement = wrapperElement.querySelector(
@@ -81,14 +84,13 @@ export const getDataForScrap = async (page)=>{
           });
         });
 
-        // Puedes agregar más propiedades según tus necesidades
         data.push({
           header: {
             percent,
             percent_color,
             sportName,
             period: period_game ? period_game.innerText.trim() : null,
-            middle_value : middle_value ? middle_value.innerText.trim() : null,
+            middle_value: middle_value ? middle_value.innerText.trim() : null,
             time,
           },
           sections,
@@ -99,5 +101,5 @@ export const getDataForScrap = async (page)=>{
     return data;
   });
 
-  return datos
-}
+  return datos;
+};
