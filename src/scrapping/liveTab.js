@@ -3,6 +3,7 @@ import { fileURLToPath } from "url";
 import path from "path";
 import { credentials } from "../configurations/credentials.js";
 import { getDataForScrap } from "../utils/getData.js";
+import { resetPageAtomatic } from "../utils/general.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,7 +15,7 @@ const clearcache = async (page) => {
 };
 
 export const startLive = async (openBrowser) => {
-
+  let reload = false
   const browser = await openBrowser;
   const page = await browser.newPage();
   await page.setUserAgent(
@@ -51,12 +52,16 @@ export const startLive = async (openBrowser) => {
 
   // Obtener datos
 
-  setInterval(async () => {
+  if(!reload){
+setInterval(async () => {
     let collection_live = await getDataForScrap(page);
 
     await fs.writeFile(direction, JSON.stringify(collection_live, null, 2));
 
     await clearcache(page)
   }, 3000)
+  }
+
+  
 
 };
