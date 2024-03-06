@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import { openBrowser } from "./scrapping/browser.js";
 import { startLive } from "./scrapping/liveTab.js";
-import { startPrematch } from "./scrapping/prematchTab.js";
 import { PORT } from "./configurations/general.js";
 import routes from "./routes/index.js";
 
@@ -18,6 +17,5 @@ app.use("/api", routes);
 const browser = openBrowser()
 
 startLive(browser);
-startPrematch(browser);
 
 export default app;
