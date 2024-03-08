@@ -11,21 +11,20 @@ const direction = path.join(__dirname, "..", "sample", "live.json"); // Ruta de 
 
 const clearcache = async (page) => {
   const client = await page.target().createCDPSession();
-  await client.send('Network.clearBrowserCache');
+  await client.send("Network.clearBrowserCache");
 };
 
 export const startLive = async (openBrowser) => {
-  let reload = false
   const browser = await openBrowser;
   const page = await browser.newPage();
   await page.setUserAgent(
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
   );
   const userAgent = await browser.userAgent();
-  await page.setUserAgent(userAgent.replace('Headless', ''));
+  await page.setUserAgent(userAgent.replace("Headless", ""));
   await page.evaluateOnNewDocument(() => {
-    Object.defineProperty(navigator, 'webdriver', { get: () => false });
-    window.navigator.chrome = { runtime: {}, };
+    Object.defineProperty(navigator, "webdriver", { get: () => false });
+    window.navigator.chrome = { runtime: {} };
   });
   await page.setDefaultNavigationTimeout(0);
   await page.goto("https://www.betburger.com/users/sign_in", {
@@ -52,16 +51,14 @@ export const startLive = async (openBrowser) => {
 
   // Obtener datos
 
-  if(!reload){
-setInterval(async () => {
+  setInterval(async () => {
     let collection_live = await getDataForScrap(page);
 
     await fs.writeFile(direction, JSON.stringify(collection_live, null, 2));
 
-    await clearcache(page)
-  }, 3000)
-  }
+    await clearcache(page);
+  }, 3000);
 
-  
-
+  //Recargar cada 3 horas
+  resetPageAtomatic(page);
 };

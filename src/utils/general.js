@@ -1,7 +1,7 @@
 import cron from "node-cron";
 
-export const resetPageAtomatic = (page) => {
-  cron.schedule("*/3 * * * *", async () => {
-    await page.reload();
+export const resetPageAutomatic = (page) => {
+  cron.schedule("0 */3 * * *", async () => {
+    await page.reload({ waitUntil: "domcontentloaded" });
   });
 };

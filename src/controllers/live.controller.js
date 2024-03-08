@@ -1,17 +1,18 @@
-import fs from "fs/promises";
-const filePath = "src/sample/live.json";
+import axios from "axios";
+import { API_URL } from "../configurations/general.js";
 
-export const listLives = async (req, res) => {
+// Enviar data a api
+
+export const sendDataSurebetLive = async (surebet) => {
+  const data = JSON.stringify(surebet, null, 2);
+
   try {
-    const jsonData = await fs.readFile(filePath, "utf-8");
+    const { status } = await axios.post(`${API_URL.development}/lives`, data);
 
-    // Validar si jsonData es falsy o no es un JSON válido
-    const lives = jsonData ? JSON.parse(jsonData) : [];
-
-    return res.status(200).json(lives);
+    if (status == 204) {
+      console.log("Surebet guardada");
+    }
   } catch (error) {
-    return res.status(500).json({
-      message: `SERVER_ERROR:: ${error}`,
-    });
+    return console.log(`SERVER_ERROR:: ${error}`);
   }
 };
