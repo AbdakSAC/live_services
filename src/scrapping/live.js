@@ -4,6 +4,7 @@ import path from "path";
 import { credentials } from "../configurations/credentials.js";
 import { getDataForScrap } from "../utils/getData.js";
 import { resetPageAtomatic } from "../utils/general.js";
+import { sendDataSurebetLive } from "../controllers/live.controller.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -53,10 +54,13 @@ export const startLive = async (openBrowser) => {
 
   setInterval(async () => {
     let collection_live = await getDataForScrap(page);
+    const surebet = JSON.stringify(collection_live, null, 2);
 
-    await fs.writeFile(direction, JSON.stringify(collection_live, null, 2));
+    const result = await sendDataSurebetLive(surebet);
 
-    await clearcache(page);
+    if (result) {
+      await clearcache(page);
+    }
   }, 3000);
 
   //Recargar cada 3 horas

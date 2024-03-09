@@ -4,15 +4,17 @@ import { API_URL } from "../configurations/general.js";
 // Enviar data a api
 
 export const sendDataSurebetLive = async (surebet) => {
-  const data = JSON.stringify(surebet, null, 2);
-
   try {
-    const { status } = await axios.post(`${API_URL.development}/lives`, data);
+    const { status } = await axios.post(`${API_URL}/lives`, {
+      surebet_live: surebet,
+    });
 
     if (status == 204) {
       console.log("Surebet guardada");
+      return true;
     }
   } catch (error) {
-    return console.log(`SERVER_ERROR:: ${error}`);
+    console.log(`SERVER_ERROR:: ${error.response.data.message}`);
+    return false;
   }
 };

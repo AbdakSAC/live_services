@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { openBrowser } from "./scrapping/browser.js";
-import { startLive } from "./scrapping/liveTab.js";
+import { startLive } from "./scrapping/live.js";
 import { PORT } from "./configurations/general.js";
 
 const app = express();

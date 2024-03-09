@@ -1,6 +1,8 @@
-export const PORT = 4020;
+export const PORT = 4010;
 
-export const API_URL = {
+const api_access = {
   development: "http://localhost:4090/api",
-  production: "",
+  production: "https://api.surebet.tmoneysport.com/api",
 };
+
+export const API_URL = api_access.development;
