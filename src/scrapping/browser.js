@@ -7,7 +7,11 @@ export const openBrowser = async () => {
 
     const browser = await puppeteer.launch({
       headless: false,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-web-security",
+      ],
       ignoreHTTPSErrors: true,
       defaultViewport: null,
     });

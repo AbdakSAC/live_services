@@ -3,12 +3,14 @@ import { fileURLToPath } from "url";
 import path from "path";
 import { credentials } from "../configurations/credentials.js";
 import { getDataForScrap } from "../utils/getData.js";
-import { resetPageAtomatic } from "../utils/general.js";
+import {
+  waitForRequest,
+  waitForResponse,
+  resetPageAtomatic,
+} from "../utils/general.js";
 import { sendDataSurebetLive } from "../controllers/live.controller.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const direction = path.join(__dirname, "..", "sample", "live.json"); // Ruta de salida
+const request = "https://rest-api-lv.betburger.com/api/v1/arbs/pro_search";
 
 const clearcache = async (page) => {
   const client = await page.target().createCDPSession();
@@ -41,28 +43,24 @@ export const startLive = async (openBrowser) => {
   // Esperar a que el elemento ul.arbs-list esté presente en la página
   await page.waitForSelector("ul.arbs-list", { timeout: 0 });
 
-  const htpp = page.waitForResponse(
-    (response) => {
-      return response
-        .url()
-        .startsWith("https://rest-api-lv.betburger.com/api/v1/arbs/pro_search");
-    },
-    { timeout: 0 }
-  );
-
   // Obtener datos
-
   setInterval(async () => {
-    let collection_live = await getDataForScrap(page);
-    const surebet = JSON.stringify(collection_live, null, 2);
+    const response = await waitForResponse(page, request);
 
-    const result = await sendDataSurebetLive(surebet);
+    if (response) {
+      let collection_live = await getDataForScrap(page);
+      const surebet = JSON.stringify(collection_live, null, 2);
 
-    if (result) {
-      await clearcache(page);
+      const result = await sendDataSurebetLive(surebet);
+
+      if (result) {
+        await clearcache(page);
+      }
     }
+
+    await clearcache(page);
   }, 3000);
 
-  //Recargar cada 3 horas
+  //Recargar cada 2 horas
   resetPageAtomatic(page);
 };
