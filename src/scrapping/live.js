@@ -61,6 +61,6 @@ export const startLive = async (openBrowser) => {
     await clearcache(page);
   }, 3000);
 
-  //Recargar cada 2 horas
+  //Recargar cada 30 minutos horas
   resetPageAtomatic(page);
 };
