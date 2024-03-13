@@ -9,8 +9,7 @@ export const openBrowser = async () => {
       headless: false,
       args: [
         "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-web-security",
+        "--disable-setuid-sandbox"
       ],
       ignoreHTTPSErrors: true,
       defaultViewport: null,

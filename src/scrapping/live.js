@@ -1,14 +1,12 @@
-import fs from "fs/promises";
-import { fileURLToPath } from "url";
-import path from "path";
 import { credentials } from "../configurations/credentials.js";
 import { getDataForScrap } from "../utils/getData.js";
 import {
   waitForRequest,
   waitForResponse,
-  resetPageAtomatic,
+  resetPageAutomatic,
 } from "../utils/general.js";
 import { sendDataSurebetLive } from "../controllers/live.controller.js";
+import cron from "node-cron";
 
 const request = "https://rest-api-lv.betburger.com/api/v1/arbs/pro_search";
 
@@ -43,24 +41,30 @@ export const startLive = async (openBrowser) => {
   // Esperar a que el elemento ul.arbs-list esté presente en la página
   await page.waitForSelector("ul.arbs-list", { timeout: 0 });
 
+  let reload = false;
+
   // Obtener datos
   setInterval(async () => {
-    const response = await waitForResponse(page, request);
-
-    if (response) {
+    if (!reload) {
       let collection_live = await getDataForScrap(page);
       const surebet = JSON.stringify(collection_live, null, 2);
 
-      const result = await sendDataSurebetLive(surebet);
+      if (surebet == "null") {
+        let data = [];
+        await sendDataSurebetLive(data);
+      }
 
-      if (result) {
-        await clearcache(page);
+      if (surebet != "null") {
+        await sendDataSurebetLive(surebet);
       }
     }
 
     await clearcache(page);
-  }, 3000);
+  }, 2000);
 
-  //Recargar cada 30 minutos horas
-  resetPageAtomatic(page);
+  cron.schedule("*/15 * * * *", async () => {
+    reload = true;
+    await page.reload({ waitUntil: "domcontentloaded" });
+    reload = false;
+  });
 };

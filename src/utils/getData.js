@@ -89,6 +89,8 @@ export const getDataForScrap = async (page) => {
             percent,
             percent_color,
             sportName,
+            home1: sections[0].book_name,
+            home2: sections[1].book_name,
             period: period_game ? period_game.innerText.trim() : null,
             middle_value: middle_value ? middle_value.innerText.trim() : null,
             time,
